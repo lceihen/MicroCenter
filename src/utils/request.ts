@@ -1,4 +1,3 @@
-import { authConfig } from "@/config";
 export const handleGetParamString = (data: any = {}) => {
   const queryArray: Array<string> = [];
   Object.keys(data).map((key) => {
@@ -14,6 +13,7 @@ interface IRequestProps {
   method?: string;
   headers?: any;
   params?: any;
+  authConfig?: Record<string, string>;
 }
 
 const BaseUrl = "";
@@ -39,6 +39,7 @@ export default (props: IRequestProps) => {
     method = "GET",
     headers = {},
     params = {},
+    authConfig = {},
   } = props || {};
 
   method = method.toUpperCase();
@@ -70,6 +71,7 @@ export default (props: IRequestProps) => {
       .then((res) => {
         if (res?.code === "-1") {
           reject(res);
+          console.error(res);
         }
         if (res?.code === "-10000") {
           const { prodUrl, authUrl, clientId, secret } = authConfig;
